@@ -91,7 +91,7 @@ class AchievementListView(APIView):
             raise serializers.ValidationError('Your account is don\'t have permissions to acess this information')
 
         achievement = student.achievements.all()
-        sort = request.query_params.get('sort')
+        sort = request.query_params.get(ORDERING_PARAM)
         if sort:
             achievement = achievement.order_by(f'{sort}')
 
@@ -124,7 +124,7 @@ class TimeTableView(APIView):
         semester = request.query_params.get('semester')
         teacher_id = request.query_params.get('teacher_id')
         course_id = request.query_params.get('course_id')
-        sort = request.query_params.get('sort')
+        sort = request.query_params.get(ORDERING_PARAM)
         if school_year:
             timetables = timetables.filter(school_year=school_year)
         if semester:
@@ -161,7 +161,7 @@ class GradeListView(APIView):
             raise serializers.ValidationError('Your account is don\'t have permissions to acess this information')
         grades = student.grades.all()
 
-        sort = request.query_params.get('sort')
+        sort = request.query_params.get(ORDERING_PARAM)
         school_year = request.query_params.get('school_year')
         semester = request.query_params.get('semester')
         course_id = request.query_params.get('course_id')

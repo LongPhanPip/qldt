@@ -20,7 +20,7 @@ urlpatterns = [
     path('timetable', TimetableView.as_view(), name='teacher_timetable'),
     path('documents',StudyDocumentView.as_view(), name='list_study_document'),
     path('upload', UploadStudyDocumentView.as_view(), name='upload_study_document'),
-    path('device_manage', DeviceManageView.as_view()),
     path('devices', DeviceView.as_view()),
+    path('device_manage', DeviceManageView.as_view()),
 
 ]

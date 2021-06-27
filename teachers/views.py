@@ -95,7 +95,7 @@ class ClassView(APIView):
                 raise serializers.ValidationError('You don\'t teach this class')
 
         classroom = get_classroom(pk)
-        sort = request.query_params.get('sort')
+        sort = request.query_params.get(ORDERING_PARAM)
 
         serializer = ClassroomSerializer(classroom)
         return Response(serializer.data)
@@ -529,6 +529,9 @@ class DeviceView(APIView, PaginationHandlerMixin):
     permission_classes = [IsAuthenticated]
     pagination_class = Pagination
 
+    @swagger_auto_schema(
+        manual_parameters=[openapi.Parameter('sort', openapi.IN_QUERY, type=openapi.TYPE_INTEGER, description='device_name, status')],
+    )
     def get(self, request):
         user = request.user
         try:
@@ -557,6 +560,9 @@ class DeviceManageView(APIView, PaginationHandlerMixin):
     permission_classes = [IsAuthenticated]
     pagination_class = Pagination
 
+    @swagger_auto_schema(
+        manual_parameters=[openapi.Parameter('sort', openapi.IN_QUERY, type=openapi.TYPE_INTEGER, description='week, day_of_week')],
+    )
     def get(self, request):
         user = request.user
         try:
@@ -564,7 +570,13 @@ class DeviceManageView(APIView, PaginationHandlerMixin):
         except Exception:
             raise serializers.ValidationError('Your account is don\'t have permissions to acess this information')
 
+        sort = request.query_params.get(ORDERING_PARAM)
+
         device_manages = DeviceManage.objects.filter(teacher=teacher)
+
+        if sort:
+            device_manages = device_manages.order_by(f'{sort}')
+
         serializer = DeviceManageSerializer(device_manages, many=True)
         return Response(serializer.data)
 
