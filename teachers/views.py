@@ -120,18 +120,20 @@ class StudentGradeView(APIView):
             raise serializers.ValidationError('Your account is don\'t have permissions to acess this information')
 
         course_id = request.query_params.get('course_id')
-        students = Student.objects.all().filter(classroom_id=pk)
 
         #check whether teach this class
 
         this_school_year = Timetable.objects.order_by('-school_year').first().school_year
         this_semester = Timetable.objects.order_by('-semester').first().semester
         if teacher.timetables.filter(classroom_id=pk, school_year=this_school_year, semester=this_semester).exists():
-            grades = Grade.objects.all().filter(student__in= students,
+            grades = Grade.objects.all().filter(student__classroom_id=pk,
                                                    school_year=this_school_year,
                                                    semester=this_semester)
             if course_id:
                 grades = grades.filter(course_id=course_id)
+
+            grades = grades.order_by('student__person__first_name')
+
 
         else:
             return Response('You don\'t teach this class this semester and school_year', status=status.HTTP_400_BAD_REQUEST)
@@ -188,12 +190,7 @@ class ClassRecordView(APIView):
 
     @swagger_auto_schema(
             manual_parameters=[openapi.Parameter('study_week', openapi.IN_QUERY, type=openapi.TYPE_INTEGER, description='Study week')],
-            request_body=openapi.Schema(
-                type=openapi.TYPE_OBJECT,
-                properties=GRADE_CHANGE_PROP
-            ),
-
-        )
+    )
     def get(self, request, pk):
         user = request.user
         try:
@@ -255,20 +252,21 @@ class StudyDocumentView(generics.ListAPIView):
     serializer_class = StudyDocumentSerializer
     pagination_class = CustomPageNumberPagination
     filter_backends = (DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter)
-    filter_fields = ('id', 'classroom_id', 'teacher_id','course_id', )
+    filter_fields = ('id', 'classroom_id', 'course_id', )
     ordering_fields = ['classroom__class_name', 'course__course_name',]
 
     def get_queryset(self):
         user = self.request.user
         try:
             teacher = Teacher.objects.get(account=user)
-            studydocument = StudyDocument.objects.all().filter(teacher=teacher).order_by(
-                'classroom__class_name',
-                'course__course_name'
-            )
-            return studydocument
-        except Teacher.DoesNotExist:
-            return exceptions.NotFound('Teacher does not exist')
+        except Exception:
+            raise serializers.ValidationError('Your account is don\'t have permissions to acess this information')
+
+        studydocument = StudyDocument.objects.all().filter(teacher=teacher).order_by(
+            'classroom__class_name',
+            'course__course_name'
+        )
+        return studydocument
 
     @swagger_auto_schema(
         manual_parameters=[openapi.Parameter('id', openapi.IN_QUERY, type=openapi.TYPE_INTEGER, description='File id')],
@@ -310,7 +308,6 @@ class UploadStudyDocumentView(APIView):
             return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-# # ------------------- Xem lich giang day ----------------
 class TimetableView(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
     queryset = Timetable.objects.all()
@@ -329,9 +326,36 @@ class TimetableView(generics.ListAPIView):
         teacherTimetable = Timetable.objects.filter(teacher=teacher)
         return teacherTimetable
 
-class ClassTimetableView(APIView):
+# # ------------------- Co giao chu nhiem ----------------
+
+class MyClassView(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self, request):
+        user = self.request.user
+        try:
+            teacher = Teacher.objects.get(account=user)
+        except Exception:
+            raise serializers.ValidationError('Your account is don\'t have permissions to acess this information')
+
+        if teacher.home_class.exists():
+            class_id = teacher.home_class.first().id
+            classroom = get_classroom(class_id)
+            serializer = ClassroomSerializer(classroom)
+            return Response(serializer.data)
+
+        else:
+            return Response('You don\'t have any homeclass', status=status.HTTP_404_NOT_FOUND)
+
+
+class MyClassTimetableView(APIView):
     permission_classes = [IsAuthenticated]
 
+    @swagger_auto_schema(
+        manual_parameters=[
+            openapi.Parameter('school_year', openapi.IN_QUERY, type=openapi.TYPE_INTEGER, description='School year'),
+            openapi.Parameter('semester', openapi.IN_QUERY, type=openapi.TYPE_INTEGER, description='Semester'),
+        ],
+    )
     def get(self, request):
         user = request.user
         try:
@@ -340,7 +364,7 @@ class ClassTimetableView(APIView):
             raise serializers.ValidationError('Your account is don\'t have permissions to acess this information')
 
         if not teacher.home_class.exists():
-            raise serializers.ValidationError('You don\'t have any homeclass')
+            return Response('You don\'t have any homeclass', status=status.HTTP_404_NOT_FOUND)
 
         classroom = teacher.home_class.first()
         timetables = Timetable.objects.filter(classroom=classroom)
@@ -355,9 +379,16 @@ class ClassTimetableView(APIView):
         serializer = TimetableSerializer(timetables, many=True)
         return Response(serializer.data)
 
-class StudentConductView(APIView):
+class MyClassRecordView(APIView):
     permission_classes = [IsAuthenticated]
 
+    @swagger_auto_schema(
+        manual_parameters=[
+            openapi.Parameter('school_year', openapi.IN_QUERY, type=openapi.TYPE_INTEGER, description='School year'),
+            openapi.Parameter('semester', openapi.IN_QUERY, type=openapi.TYPE_INTEGER, description='Semester'),
+            openapi.Parameter('study_week', openapi.IN_QUERY, type=openapi.TYPE_INTEGER, description='Study_week'),
+        ],
+    )
     def get(self, request):
         user = request.user
         try:
@@ -366,7 +397,84 @@ class StudentConductView(APIView):
             raise serializers.ValidationError('Your account is don\'t have permissions to acess this information')
 
         if not teacher.home_class.exists():
-            raise serializers.ValidationError('You don\'t have any homeclass')
+            return Response('You don\'t have any homeclass', status=status.HTTP_404_NOT_FOUND)
+
+        classroom = teacher.home_class.first()
+        records = ClassRecord.objects.filter(classroom=classroom)
+
+        school_year = request.query_params.get('school_year')
+        semester = request.query_params.get('semester')
+        study_week = request.query_params.get('study_week')
+        if school_year:
+            records = records.filter(school_year=school_year)
+        if semester:
+            records = records.filter(semester=semester)
+        if study_week:
+            records = records.filter(study_week=study_week)
+
+        serializer = RecordSerializer(records, many=True)
+        return Response(serializer.data)
+
+class MyClassGradeView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    @swagger_auto_schema(
+        manual_parameters=[
+            openapi.Parameter('school_year', openapi.IN_QUERY, type=openapi.TYPE_INTEGER, description='School year'),
+            openapi.Parameter('semester', openapi.IN_QUERY, type=openapi.TYPE_INTEGER, description='Semester'),
+            openapi.Parameter('course_id', openapi.IN_QUERY, type=openapi.TYPE_INTEGER, description='Course id'),
+        ],
+    )
+    def get(self, request):
+        user = request.user
+        try:
+            teacher = Teacher.objects.get(account=user)
+        except Exception:
+            raise serializers.ValidationError('Your account is don\'t have permissions to acess this information')
+
+        if not teacher.home_class.exists():
+            return Response('You don\'t have any homeclass', status=status.HTTP_404_NOT_FOUND)
+
+        classroom = teacher.home_class.first()
+        grades = Grade.objects.filter(student__classroom=classroom)
+
+        sort = request.query_params.get('sort')
+        school_year = request.query_params.get('school_year')
+        semester = request.query_params.get('semester')
+        course_id = request.query_params.get('course_id')
+
+        if school_year:
+            grades = grades.filter(school_year=school_year)
+        if semester:
+            grades = grades.filter(semester=semester)
+        if course_id:
+            grades = grades.filter(course_id=course_id)
+
+        grades = grades.order_by('student__person__first_name')
+
+        serializer = GradeSerializer(grades, many=True)
+        return Response(serializer.data)
+
+
+
+class MyClassConductView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    @swagger_auto_schema(
+        manual_parameters=[
+            openapi.Parameter('school_year', openapi.IN_QUERY, type=openapi.TYPE_INTEGER, description='School year'),
+            openapi.Parameter('semester', openapi.IN_QUERY, type=openapi.TYPE_INTEGER, description='Semester'),
+        ],
+    )
+    def get(self, request):
+        user = request.user
+        try:
+            teacher = Teacher.objects.get(account=user)
+        except Exception:
+            raise serializers.ValidationError('Your account is don\'t have permissions to acess this information')
+
+        if not teacher.home_class.exists():
+            return Response('You don\'t have any homeclass', status=status.HTTP_404_NOT_FOUND)
 
         school_year = request.query_params.get('school_year')
         semester = request.query_params.get('semester')
@@ -383,23 +491,6 @@ class StudentConductView(APIView):
         serializer = ConductSerializer(conducts, many=True)
         return Response(serializer.data)
 
-    # def post(self, request):
-    #     user = request.user
-    #     try:
-    #         teacher = Teacher.objects.get(account=user)
-    #     except Exception:
-    #         raise serializers.ValidationError('Your account is don\'t have permissions to acess this information')
-
-    #     if not teacher.home_class.exists():
-    #         raise serializers.ValidationError('You don\'t have any homeclass')
-
-    #     serializer = ConductSerializer(data=request.data)
-    #     try:
-    #         serializer.is_valid(raise_exception=True)
-    #         serializer.save()
-    #         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    #     except serializers.ValidationError:
-    #         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     @swagger_auto_schema(
         manual_parameters=[openapi.Parameter('id', openapi.IN_QUERY, type=openapi.TYPE_INTEGER, description='Conduct id')],
