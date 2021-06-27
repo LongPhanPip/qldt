@@ -21,12 +21,17 @@ class StudentClassSerializer(serializers.ModelSerializer):
 
 class ClassroomSerializer(serializers.ModelSerializer):
     homeroom_teacher_id = serializers.IntegerField(write_only=True)
-    students = StudentClassSerializer(many=True, read_only=True)
+    students = serializers.SerializerMethodField(read_only=True)
     homeroom_teacher = TeacherSerializer(read_only=True)
 
     class Meta:
         model = Classroom
+        ordering = ['students__person__first_name']
         fields = ['id', 'class_name', 'homeroom_teacher_id', 'location', 'students', 'homeroom_teacher']
+
+    def get_students(self, obj):
+        students = obj.students.order_by('person__first_name')
+        return StudentClassSerializer(students, many=True).data
 
 
 class CourseSerializer(serializers.ModelSerializer):

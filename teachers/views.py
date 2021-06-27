@@ -4,7 +4,7 @@ from school.utils import get_record, get_classroom, get_course, get_file as get_
 from students.utils import get_student, get_grade, get_conduct
 from teachers.utils import get_current_teacher
 from students.serializers import GradeSerializer, StudentSerializer, ConductSerializer
-from school.serializers import RecordSerializer, StudyDocumentSerializer, TeachingInfoSerializer, TimetableSerializer, DeviceSerializer, DeviceManageSerializer
+from school.serializers import RecordSerializer, StudyDocumentSerializer, TeachingInfoSerializer, TimetableSerializer, DeviceSerializer, DeviceManageSerializer, ClassroomSerializer
 from students.models import Grade, Student, Conduct
 from teachers.models import Teacher
 from school.models import ClassRecord, Classroom, Course, StudyDocument, TeachingInfo, Timetable, Device, DeviceManage
@@ -59,7 +59,7 @@ class TeacherView(APIView):
 
 # # Show class, course , ... which current teacher teaches
 class TeachingInfoView(generics.ListAPIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     queryset = Timetable.objects.all()
     serializer_class = TeachingInfoSerializer
     filter_backends = (DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter)
@@ -79,77 +79,57 @@ class TeachingInfoView(generics.ListAPIView):
 
 
 # # Show list of students in a class
-class StudentView(generics.ListAPIView):
+class ClassView(APIView):
     permission_classes = [IsAuthenticated]
-    queryset = Student.objects.all()
-    serializer_class = StudentSerializer
-    pagination_class = CustomPageNumberPagination
-    filter_backends = (DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter)
-    ordering_fields = ['person__last_name', 'person__first_name', ]
-    filter_fields = ('classroom_id', 'course_id', 'school_year', 'semester')
 
-    def get_queryset(self):
-        user = self.request.user
+    def get(self, request, pk):
+        user = request.user
         try:
             teacher = Teacher.objects.get(account=user)
         except Exception:
             raise serializers.ValidationError('Your account is don\'t have permissions to acess this information')
 
-        class_id = self.kwargs.get('class_id')
-        school_year = self.request.query_params.get('school_year')
-        term = self.request.query_params.get('term')
-        if school_year and term:
-            #check whether is the home teacher or teach this class
-            if not teacher.home_class.filter(id=class_id).exists():
-                if not teacher.timetables.filter(classroom_id=class_id,
-                                                 school_year=school_year,
-                                                 term=term).exists():
-                    raise serializers.ValidationError('You don\'t teach this class')
+        #check whether is the home teacher or teach this class
+        if not teacher.home_class.filter(id=pk).exists():
+            if not teacher.timetables.filter(classroom_id=pk).exists():
+                raise serializers.ValidationError('You don\'t teach this class')
 
-            student = Student.objects.all().filter(classroom_id=class_id).order_by(
-                   'person__last_name', 'person__first_name', 'person__date_of_birth')
-            return student
+        classroom = get_classroom(pk)
+        sort = request.query_params.get('sort')
 
-        else:
-            serializers.ValidationError('school_year and term need to be provide')
+        serializer = ClassroomSerializer(classroom)
+        return Response(serializer.data)
+
 
 
 # # Show list of student's grade of a course in a class
-class StudentGradeView(generics.ListAPIView):
+class StudentGradeView(APIView):
     permission_classes = [IsAuthenticated]
     queryset = Grade.objects.all()
-    serializer_class = GradeSerializer
-    filter_backends = (DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter)
-    ordering_fields = ['student__person__first_name', 'student__person__last_name', ]
 
-    def get_queryset(self):
-        user = self.request.user
+    def get(self, request, pk):
+        user = request.user
         try:
             teacher = Teacher.objects.get(account=user)
         except Exception:
             raise serializers.ValidationError('Your account is don\'t have permissions to acess this information')
 
-        class_id = self.kwargs.get('class_id')
         course_id = self.request.query_params.get('course_id')
         school_year = self.request.query_params.get('school_year')
         semester = self.request.query_params.get('semester')
-        if course_id and school_year and semester:
-             #check whether is the home teacher or teach this class
-            if not teacher.home_class.filter(id=class_id).exists():
-                if not teacher.timetables.filter(classroom_id=class_id,
-                                                 school_year=school_year,
-                                                 semester=semester,
-                                                 course_id=course_id).exists():
-                    raise serializers.ValidationError('You don\'t teach this class')
 
-            students = Student.objects.all().filter(classroom_id=class_id)
-            student_grade = Grade.objects.all().filter(student__in= students,
-                                                       course_id=course_id,
-                                                       school_year=school_year,
-                                                       semester=semester)
-            return student_grade
+        #check whether is the home teacher or teach this class
+        if not teacher.home_class.filter(id=class_id).exists():
+            if not teacher.timetables.filter(classroom_id=class_id).exists():
+                raise serializers.ValidationError('You don\'t teach this class')
 
-        raise serializers.ValidationError('course_id, school_year and semester need to be provide')
+        students = Student.objects.all().filter(classroom_id=class_id)
+        student_grade = Grade.objects.all().filter(student__in= students,
+                                                   course_id=course_id,
+                                                   school_year=school_year,
+                                                   semester=semester)
+        return student_grade
+
 
 
     @swagger_auto_schema(
