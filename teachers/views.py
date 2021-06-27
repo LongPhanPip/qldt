@@ -39,7 +39,7 @@ from config.settings import REST_FRAMEWORK
 
 ORDERING_PARAM = REST_FRAMEWORK['ORDERING_PARAM']
 
-EXPIRED_DAYS = 30 * 5
+EXPIRED_DAYS = 30 * 2
 
 # # Create your views here.
 
@@ -59,7 +59,7 @@ class TeacherView(APIView):
 
 # # Show class, course , ... which current teacher teaches
 class TeachingInfoView(generics.ListAPIView):
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     queryset = Timetable.objects.all()
     serializer_class = TeachingInfoSerializer
     filter_backends = (DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter)
@@ -107,6 +107,11 @@ class StudentGradeView(APIView):
     permission_classes = [IsAuthenticated]
     queryset = Grade.objects.all()
 
+    @swagger_auto_schema(
+        manual_parameters=[
+            openapi.Parameter('course_id', openapi.IN_QUERY, description="Course id", type=openapi.TYPE_INTEGER),
+        ]
+    )
     def get(self, request, pk):
         user = request.user
         try:
@@ -114,22 +119,25 @@ class StudentGradeView(APIView):
         except Exception:
             raise serializers.ValidationError('Your account is don\'t have permissions to acess this information')
 
-        course_id = self.request.query_params.get('course_id')
-        school_year = self.request.query_params.get('school_year')
-        semester = self.request.query_params.get('semester')
+        course_id = request.query_params.get('course_id')
+        students = Student.objects.all().filter(classroom_id=pk)
 
-        #check whether is the home teacher or teach this class
-        if not teacher.home_class.filter(id=class_id).exists():
-            if not teacher.timetables.filter(classroom_id=class_id).exists():
-                raise serializers.ValidationError('You don\'t teach this class')
+        #check whether teach this class
 
-        students = Student.objects.all().filter(classroom_id=class_id)
-        student_grade = Grade.objects.all().filter(student__in= students,
-                                                   course_id=course_id,
-                                                   school_year=school_year,
-                                                   semester=semester)
-        return student_grade
+        this_school_year = Timetable.objects.order_by('-school_year').first().school_year
+        this_semester = Timetable.objects.order_by('-semester').first().semester
+        if teacher.timetables.filter(classroom_id=pk, school_year=this_school_year, semester=this_semester).exists():
+            grades = Grade.objects.all().filter(student__in= students,
+                                                   school_year=this_school_year,
+                                                   semester=this_semester)
+            if course_id:
+                grades = grades.filter(course_id=course_id)
 
+        else:
+            return Response('You don\'t teach this class this semester and school_year', status=status.HTTP_400_BAD_REQUEST)
+
+        serializer = GradeSerializer(grades, many=True)
+        return Response(serializer.data)
 
 
     @swagger_auto_schema(
@@ -140,7 +148,7 @@ class StudentGradeView(APIView):
         ),
 
     )
-    def put(self, request, class_id):
+    def put(self, request, pk):
         user = request.user
         try:
             teacher = Teacher.objects.get(account=user)
@@ -148,6 +156,11 @@ class StudentGradeView(APIView):
             raise serializers.ValidationError('Your account is don\'t have permissions to acess this information')
         if 'start_update' in request.data.keys():
                 return Response('You have no right to update start_update field', status=status.HTTP_400_BAD_REQUEST)
+
+        this_school_year = Timetable.objects.order_by('-school_year').first().school_year
+        this_semester = Timetable.objects.order_by('-semester').first().semester
+        if not teacher.timetables.filter(classroom_id=pk, school_year=this_school_year, semester=this_semester).exists():
+            return Response('You don\'t teach this class this semester and school_year', status=status.HTTP_400_BAD_REQUEST)
 
         grade_id = request.query_params.get('id')
         if grade_id:
@@ -170,28 +183,36 @@ class StudentGradeView(APIView):
 
 
 # Show list classrecord
-class ClassRecordView(generics.ListAPIView):
-    permission_classes = [IsAuthenticated, IsTeacher]
-    queryset = ClassRecord.objects.all()
-    serializer_class = RecordSerializer
-    pagination_class = CustomPageNumberPagination
-    filter_backends = (DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter)
-    filter_fields = ('id', 'day_of_week', 'study_week', 'classroom_id', 'course_id', 'school_year', 'semester')
-    ordering_fields = ['day_of_week', 'study_week', 'semester', 'school_year']
+class ClassRecordView(APIView):
+    permission_classes = [IsAuthenticated]
 
+    @swagger_auto_schema(
+            manual_parameters=[openapi.Parameter('study_week', openapi.IN_QUERY, type=openapi.TYPE_INTEGER, description='Study week')],
+            request_body=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties=GRADE_CHANGE_PROP
+            ),
 
-    def get_queryset(self):
-        user = self.request.user
+        )
+    def get(self, request, pk):
+        user = request.user
         try:
             teacher = Teacher.objects.get(account=user)
         except Exception:
             raise serializers.ValidationError('Your account is don\'t have permissions to acess this information')
 
-        classrecord = ClassRecord.objects.all().order_by(
-             'school_year', 'semester', 'study_week', 'day_of_week', 'classroom__class_name'
-        )
+        this_school_year = Timetable.objects.order_by('-school_year').first().school_year
+        this_semester = Timetable.objects.order_by('-semester').first().semester
+        if teacher.timetables.filter(classroom_id=pk, school_year=this_school_year, semester=this_semester).exists():
+            records = ClassRecord.objects.filter(classroom_id=pk,
+                                                 school_year=this_school_year,
+                                                 semester=this_semester)
 
-        return classrecord
+        else:
+            return Response('You don\'t teach this class this semester and school_year', status=status.HTTP_400_BAD_REQUEST)
+
+        serializer = RecordSerializer(records, many=True)
+        return Response(serializer.data)
 
     @swagger_auto_schema(
         manual_parameters=[openapi.Parameter('id', openapi.IN_QUERY, type=openapi.TYPE_INTEGER, description='Record id')],
@@ -200,12 +221,17 @@ class ClassRecordView(generics.ListAPIView):
             properties=CLASSRECORD_CHANGE_PROP
         ),
     )
-    def put(self, request, class_id):
+    def put(self, request, pk):
         user = self.request.user
         try:
             teacher = Teacher.objects.get(account=user)
         except Exception:
             raise serializers.ValidationError('Your account is don\'t have permissions to acess this information')
+
+        this_school_year = Timetable.objects.order_by('-school_year').first().school_year
+        this_semester = Timetable.objects.order_by('-semester').first().semester
+        if not teacher.timetables.filter(classroom_id=pk, school_year=this_school_year, semester=this_semester).exists():
+            return Response('You don\'t teach this class this semester and school_year', status=status.HTTP_400_BAD_REQUEST)
 
         id = request.query_params.get('id')
         if id:
