@@ -145,7 +145,7 @@ class StudentSerializer(serializers.ModelSerializer):
                 health = create_health(validated_data.pop('health'))
                 assign_health(instance, health)
             else:
-                update_health(student, validated_data.pop('health'))
+                update_health(instance, validated_data.pop('health'))
         except:
             pass
 
