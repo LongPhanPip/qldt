@@ -36,14 +36,20 @@ class CourseView(APIView, PaginationHandlerMixin):
     pagination_class = Pagination
 
     @swagger_auto_schema(
-        manual_parameters=[openapi.Parameter('sort', openapi.IN_QUERY, type=openapi.TYPE_STRING, description='course_name or group_course')],
+        manual_parameters=[
+            openapi.Parameter('id', openapi.IN_QUERY, type=openapi.TYPE_INTEGER, description='Course id'),
+            openapi.Parameter('sort', openapi.IN_QUERY, type=openapi.TYPE_STRING, description='course_name or group_course')
+        ],
     )
     def get(self, request):
         courses = Course.objects.all()
 
         # Get query params for sort
+        id  = request.query_params.get('id')
         sort = request.query_params.get(ORDERING_PARAM)
 
+        if id:
+            courses = courses.filter(pk=id)
         if sort:
             courses = courses.order_by(f'{sort}')
 
@@ -103,14 +109,20 @@ class DeviceView(APIView, PaginationHandlerMixin):
     pagination_class = Pagination
 
     @swagger_auto_schema(
-        manual_parameters=[openapi.Parameter('sort', openapi.IN_QUERY, type=openapi.TYPE_STRING, description='status, device_name, amount or price')],
+        manual_parameters=[
+            openapi.Parameter('id', openapi.IN_QUERY, type=openapi.TYPE_STRING, description='Device id'),
+            openapi.Parameter('sort', openapi.IN_QUERY, type=openapi.TYPE_STRING, description='status, device_name, amount or price')
+        ],
     )
     def get(self, request):
         devices = Device.objects.all()
 
         # Get query param for sort
+        id = request.query_params.get('id')
         sort = request.query_params.get(ORDERING_PARAM)
 
+        if id:
+            devices = devices.fitler(pk=id)
         if sort:
             devices = devices.order_by(f'{sort}')
 
@@ -166,6 +178,7 @@ class DeviceManageView(APIView, PaginationHandlerMixin):
 
     @swagger_auto_schema(
         manual_parameters=[
+            openapi.Parameter('id', openapi.IN_QUERY, description="Device manage id", type=openapi.TYPE_INTEGER),
             openapi.Parameter('device_id', openapi.IN_QUERY, description="Device id", type=openapi.TYPE_INTEGER),
             openapi.Parameter('teacher_id', openapi.IN_QUERY, description="Teacher id", type=openapi.TYPE_INTEGER),
             openapi.Parameter('sort', openapi.IN_QUERY, type=openapi.TYPE_STRING, description='day_of_week, shifts, week'),
@@ -186,7 +199,9 @@ class DeviceManageView(APIView, PaginationHandlerMixin):
         device_manages = DeviceManage.objects.all()
 
         # query params
-        if(device_id):
+        if id:
+            device_manages = device_manages.filter(pk=id)
+        if device_id:
             device_manages = device_manages.filter(device_id=device_id)
         if teacher_id:
             device_manages = device_manages.filter(teacher_id=teacher_id)
@@ -262,6 +277,7 @@ class StudyDocumentView(APIView, PaginationHandlerMixin):
 
     @swagger_auto_schema(
         manual_parameters=[
+            openapi.Parameter('id', openapi.IN_QUERY, description="Document id", type=openapi.TYPE_INTEGER),
             openapi.Parameter('teacher_id', openapi.IN_QUERY, description="Teacher id", type=openapi.TYPE_INTEGER),
             openapi.Parameter('course_id', openapi.IN_QUERY, type=openapi.TYPE_INTEGER, description='Course id'),
             openapi.Parameter('classroom_id', openapi.IN_QUERY, type=openapi.TYPE_INTEGER, description='Classroom id'),
@@ -274,12 +290,15 @@ class StudyDocumentView(APIView, PaginationHandlerMixin):
         files = StudyDocument.objects.all()
 
         # Get query params
+        id = request.query_params.get('id')
         sort = request.query_params.get(ORDERING_PARAM)
         course_id = request.query_params.get('course_id')
         teacher_id = request.query_params.get('teacher_id')
         classroom_id = request.query_params.get('classroom_id')
         study_week = request.query_params.get('study_week')
 
+        if id:
+            files = files.filter(pk=id)
         if course_id:
             files = files.filter(course_id=course_id)
         if teacher_id:

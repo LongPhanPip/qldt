@@ -39,6 +39,7 @@ class ListAccountView(APIView, PaginationHandlerMixin):
 
     @swagger_auto_schema(
         manual_parameters=[
+            openapi.Parameter('id', openapi.IN_QUERY, type=openapi.TYPE_STRING, description='Account id'),
             openapi.Parameter('sort', openapi.IN_QUERY, type=openapi.TYPE_STRING, description='username, id'),
             openapi.Parameter('account_type', openapi.IN_QUERY, type=openapi.TYPE_STRING, description='admin, student, teacher')
         ]
@@ -46,9 +47,12 @@ class ListAccountView(APIView, PaginationHandlerMixin):
     def get(self, request):
         accounts = get_user_model().objects.all()
 
+        id = request.query_params.get('id')
         sort = request.query_params.get(ORDERING_PARAM)
         account_type = request.query_params.get('account_type')
 
+        if id:
+            accounts = accounts.filter(pk=id)
         if account_type == 'admin':
             accounts = accounts.filter(is_admin=True)
         elif account_type == 'teacher':

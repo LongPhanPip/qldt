@@ -30,6 +30,7 @@ class StudentView(APIView, PaginationHandlerMixin):
 
     @swagger_auto_schema(
         manual_parameters=[
+            openapi.Parameter('id', openapi.IN_QUERY, description="Student id", type=openapi.TYPE_INTEGER),
             openapi.Parameter('classroom_id', openapi.IN_QUERY, description="Classroom id", type=openapi.TYPE_INTEGER),
             openapi.Parameter('status', openapi.IN_QUERY, description="Status", type=openapi.TYPE_STRING),
             openapi.Parameter('admission_year', openapi.IN_QUERY, description="Admission year", type=openapi.TYPE_INTEGER),
@@ -121,6 +122,7 @@ class StudentGradeView(APIView, PaginationHandlerMixin):
 
     @swagger_auto_schema(
         manual_parameters=[
+            openapi.Parameter('id', openapi.IN_QUERY, description="Grade id", type=openapi.TYPE_INTEGER),
             openapi.Parameter('student_id', openapi.IN_QUERY, description="Student id", type=openapi.TYPE_INTEGER),
             openapi.Parameter('classroom_id', openapi.IN_QUERY, description="Classroom id", type=openapi.TYPE_INTEGER),
             openapi.Parameter('course_id', openapi.IN_QUERY, description="Course id", type=openapi.TYPE_INTEGER),
@@ -133,6 +135,7 @@ class StudentGradeView(APIView, PaginationHandlerMixin):
         grades = Grade.objects.all()
 
         # query_set
+        id = request.query_params.get('id')
         student_id = request.query_params.get('student_id')
         classroom_id = request.query_params.get('classroom_id')
         course_id = request.query_params.get('course_id')
@@ -140,6 +143,8 @@ class StudentGradeView(APIView, PaginationHandlerMixin):
         school_year = request.query_params.get('school_year')
         sort = request.query_params.get(ORDERING_PARAM)
 
+        if id:
+            grades = grades.filter(pk=id)
         if student_id:
             grades = grades.filter(student_id=student_id)
         if classroom_id:
@@ -218,6 +223,7 @@ class StudentConductView(APIView, PaginationHandlerMixin):
 
     @swagger_auto_schema(
         manual_parameters=[
+            openapi.Parameter('id', openapi.IN_QUERY, description="Conduct id", type=openapi.TYPE_INTEGER),
             openapi.Parameter('school_year', openapi.IN_QUERY, description="School year", type=openapi.TYPE_STRING),
             openapi.Parameter('semester', openapi.IN_QUERY, description="Semester", type=openapi.TYPE_INTEGER),
             openapi.Parameter('sort', openapi.IN_QUERY, type=openapi.TYPE_STRING, description='score'),
@@ -228,10 +234,13 @@ class StudentConductView(APIView, PaginationHandlerMixin):
         conducts = Conduct.objects.all()
 
         # query_set
+        id = request.query_params.get('id')
         semester = request.query_params.get('semester')
         school_year = request.query_params.get('school_year')
         sort = request.query_params.get(ORDERING_PARAM)
 
+        if id:
+            conducts = conducts.filter(pk=id)
         if semester:
             conducts = conducts.filter(term=semester)
         if school_year:
@@ -306,14 +315,19 @@ class ParentView(APIView, PaginationHandlerMixin):
 
     @swagger_auto_schema(
         manual_parameters=[
+            openapi.Parameter('id', openapi.IN_QUERY, type=openapi.TYPE_INTEGER, description='Parent id'),
             openapi.Parameter('sort', openapi.IN_QUERY, type=openapi.TYPE_STRING, description='person__first_name, person__last_name'),
         ],
 
     )
     def get(self, request):
         parents = Parent.objects.all()
+
+        id = request.query_params.get('id')
         sort = request.query_params.get(ORDERING_PARAM)
 
+        if id:
+            parents = parents.filter(pk=id)
         if sort:
             parents = parents.order_by(f'{sort}')
 

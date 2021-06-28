@@ -27,13 +27,19 @@ class TeacherView(APIView, PaginationHandlerMixin):
     pagination_class = Pagination
 
     @swagger_auto_schema(
-        manual_parameters=[openapi.Parameter('sort', openapi.IN_QUERY, type=openapi.TYPE_STRING, description='person__first_name, person__last_name')],
+        manual_parameters=[
+            openapi.Parameter('id', openapi.IN_QUERY, type=openapi.TYPE_INTEGER, description='Teacher id'),
+            openapi.Parameter('sort', openapi.IN_QUERY, type=openapi.TYPE_STRING, description='person__first_name, person__last_name')],
     )
     def get(self, request):
         teachers = Teacher.objects.all()
 
         # Get query param for id or sort
+        id = request.query_params.get('id')
         sort = request.query_params.get(ORDERING_PARAM)
+
+        if id:
+            teachers = teachers.filter(pk=id)
         if sort:
             teachers = teachers.order_by(f'{sort}')
 

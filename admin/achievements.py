@@ -29,14 +29,20 @@ class AchievementView(APIView, PaginationHandlerMixin):
     pagination_class = Pagination
 
     @swagger_auto_schema(
-        manual_parameters=[openapi.Parameter('sort', openapi.IN_QUERY, type=openapi.TYPE_STRING, description='achievement_name, created_at')],
+        manual_parameters=[
+            openapi.Parameter('id', openapi.IN_QUERY, type=openapi.TYPE_INTEGER, description='Achievement id'),
+            openapi.Parameter('sort', openapi.IN_QUERY, type=openapi.TYPE_STRING, description='achievement_name, created_at')
+            ],
     )
     def get(self, request):
         achievements = Achievement.objects.all()
 
         # queryset
+        id = request.query_params.get('id')
         sort = request.query_params.get(ORDERING_PARAM)
 
+        if id:
+            achievements = achievements.filter(pk=id)
         if sort:
             achievements = achievements.order_by(f'{sort}')
 
