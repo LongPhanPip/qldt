@@ -17,6 +17,12 @@ from config.settings import REST_FRAMEWORK
 ORDERING_PARAM = REST_FRAMEWORK['ORDERING_PARAM']
 
 
+
+class TotalStudentView(APIView):
+    # permission_classes = (IsAdminUser, IsAuthenticated)
+    def get(self, request):
+        return Response(Student.objects.count())
+
 # Student
 class StudentView(APIView, PaginationHandlerMixin):
     # permission_classes = (IsAdminUser, IsAuthenticated)
@@ -35,11 +41,14 @@ class StudentView(APIView, PaginationHandlerMixin):
         students = Student.objects.all()
 
         # query_set
+        id = request.query_params.get('id')
         status = request.query_params.get('status')
         admission_year = request.query_params.get('admission_year')
         classroom_id = request.query_params.get('classroom_id')
         sort = request.query_params.get(ORDERING_PARAM)
 
+        if id:
+            students = students.filter(pk=id)
         if status:
             students = students.filter(status=status)
         if admission_year:

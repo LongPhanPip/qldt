@@ -24,6 +24,12 @@ from config.settings import REST_FRAMEWORK
 
 ORDERING_PARAM = REST_FRAMEWORK['ORDERING_PARAM']
 
+class TotalDeviceView(APIView):
+    # permission_classes = (IsAdminUser, IsAuthenticated)
+    def get(self, request):
+        return Response(Device.objects.count())
+
+
 # Course
 class CourseView(APIView, PaginationHandlerMixin):
     # permission_classes = (IsAdminUser, IsAuthenticated)

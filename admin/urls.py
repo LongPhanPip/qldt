@@ -48,5 +48,10 @@ urlpatterns = [
 
     # file
     path('studydoc', StudyDocumentView.as_view()),
-    path('download/<int:pk>', download)
+    path('download/<int:pk>', download),
+
+    path('total_student', TotalStudentView.as_view()),
+    path('total_teacher', TotalTeacherView.as_view()),
+    path('total_class', TotalClassView.as_view()),
+    path('total_device', TotalDeviceView.as_view()),
 ]

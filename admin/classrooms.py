@@ -19,6 +19,11 @@ from config.settings import REST_FRAMEWORK
 ORDERING_PARAM = REST_FRAMEWORK['ORDERING_PARAM']
 
 
+class TotalClassView(APIView):
+    # permission_classes = (IsAdminUser, IsAuthenticated)
+    def get(self, request):
+        return Response(Classroom.objects.count())
+
 # Classroom
 class ClassroomView(APIView, PaginationHandlerMixin):
     # permission_classes = (IsAdminUser, IsAuthenticated)
