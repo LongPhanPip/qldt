@@ -103,12 +103,13 @@ class StudentSerializer(serializers.ModelSerializer):
     account = AccountSerializer()
     person = PersonSerializer()
     health = HealthSerializer(required=False, allow_null=True)
-    classroom_id = serializers.IntegerField()
+    classroom_id = serializers.IntegerField(write_only=True)
+    classroom = ClassroomSerializer(read_only=True)
     parents = ParentSerializer(many=True, read_only=True)
 
     class Meta:
         model = Student
-        fields = ['id', 'account', 'person', 'classroom_id', 'admission_year', 'health', 'status', 'parents']
+        fields = ['id', 'account', 'person', 'classroom_id', 'admission_year', 'health', 'status', 'parents', 'classroom']
 
     def create(self, validated_data):
         person_model = create_person(validated_data.pop('person'))
