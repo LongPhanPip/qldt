@@ -43,7 +43,7 @@ class CourseSerializer(serializers.ModelSerializer):
 
 class TimetableSerializer(serializers.ModelSerializer):
     classroom = ClassroomSerializer(read_only=True)
-    teacher = TeacherSerializer(read_only=True)
+    teacher = TeacherNameSerializer(read_only=True)
     course = CourseSerializer(read_only=True)
     classroom_id = serializers.IntegerField(write_only=True)
     teacher_id = serializers.IntegerField(write_only=True)
@@ -87,7 +87,7 @@ class TimetableSerializer(serializers.ModelSerializer):
 
 class RecordSerializer(serializers.ModelSerializer):
     classroom = ClassroomSerializer(read_only=True)
-    teacher = TeacherSerializer(read_only=True)
+    teacher = TeacherNameSerializer(read_only=True)
     course = CourseSerializer(read_only=True)
     classroom_id = serializers.IntegerField(write_only=True)
     teacher_id = serializers.IntegerField(write_only=True, required=False, allow_null=True)
@@ -137,8 +137,7 @@ class RecordSerializer(serializers.ModelSerializer):
 class DeviceManageSerializer(serializers.ModelSerializer):
     device_id = serializers.IntegerField(write_only=True)
     teacher_id = serializers.IntegerField(write_only=True)
-    teacher = TeacherSerializer(read_only=True)
-
+    teacher = TeacherNameSerializer(read_only=True)
 
     class Meta:
         model = DeviceManage
