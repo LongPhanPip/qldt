@@ -146,7 +146,7 @@ class GradeSerializer(serializers.ModelSerializer):
         test = obj.test
         mid_term_test = obj.mid_term_test
         final_test = obj.final_test
-        total = 4
+        total = 6
         if quiz1 and test and mid_term_test and final_test:
             if quiz2:
                 total += 1
