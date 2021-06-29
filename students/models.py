@@ -49,12 +49,12 @@ class Grade(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='grades')
     school_year = models.SmallIntegerField()
     semester = models.SmallIntegerField()
-    quiz1 = models.DecimalField(max_digits=3, decimal_places=2, null=True)
-    quiz2 = models.DecimalField(max_digits=3, decimal_places=2, null=True)
-    quiz3 = models.DecimalField(max_digits=3, decimal_places=2, null=True)
-    test = models.DecimalField(max_digits=3, decimal_places=2, null=True)
-    mid_term_test = models.DecimalField(max_digits=3, decimal_places=2, null=True)
-    final_test = models.DecimalField(max_digits=3, decimal_places=2, null=True)
+    quiz1 = models.DecimalField(max_digits=4, decimal_places=2, null=True)
+    quiz2 = models.DecimalField(max_digits=4, decimal_places=2, null=True)
+    quiz3 = models.DecimalField(max_digits=4, decimal_places=2, null=True)
+    test = models.DecimalField(max_digits=4, decimal_places=2, null=True)
+    mid_term_test = models.DecimalField(max_digits=4, decimal_places=2, null=True)
+    final_test = models.DecimalField(max_digits=4, decimal_places=2, null=True)
     start_update = models.DateTimeField(null=True)
 
     class Meta:
