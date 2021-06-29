@@ -199,7 +199,45 @@ values ("53c64404fca44dd69d4ba7f4f543b108", 'Ngoc', 'Nguyen Thi', 'F', '1984-04-
        ("c00c35ad3b8743b886174e46887e1aac", 'Nhi', 'Do Thi', 'F', '1986-03-08', '184 Phu Luong, Ha Noi', 'Kinh', 'None', '09947467251');
 
 
-
+-- Student info
+insert into person_info(id, first_name, last_name, gender, date_of_birth, address)
+values ("d4fe771a3ecf4a88a4d2cb5b1d22836c" , 'Dung' , 'Nguyen Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
+       ("7693f451f70842babf0963c57eabf8d7" , 'Minh' , 'Tran Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
+       ("f754db6381c340fd89a42e9248c388e0" , 'Kien' , 'Pham Van', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
+       ("ce9832815a3a4795bfefacdc7009c3e8" , 'Thanh' , 'Phan Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
+       ("d23468e9c3994f4d8f6eb3eb7ec5812e" , 'Khoa' , 'Dinh Tien', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
+       ("7dc4d467601c445899ca722de29a5051" , 'Thang' , 'Ly Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
+       ("fc99cbd182224448a5cd854079f73c96" , 'Tai' , 'Le Hai', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
+       ("5d36088e065c4a16aacd0f1ea9825b43" , 'Trung' , 'Nguyen Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
+       ("7dee6815366d453f82df8f57f8f2dadf" , 'Huy' , 'Vu Van', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
+       ("98463210689c497ea8df685408c9ad0f" , 'Dang' , 'Nguyen Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
+       ("e5721d2ce6a14e3dbad80f1a031cb805" , 'Hoang' , 'Nguyen Huu', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
+       ("62e17fa9494c43898b334f494e8d58bf" , 'Dat' , 'Nguyen Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
+       ("4a24b40a498849508928b9fe1db9a546" , 'Cuong' , 'Vo Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
+       ("7cf09bfdd13a4fa6846ee95a6206a339" , 'Phi' , 'Dang Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
+       ("7bfb8323c15342fe9a017beb97440bbc" , 'Khoi' , 'Nguyen Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
+       ("a2fb578482564e9f9db3b3f5e649e53d" , 'Van' , 'Tran Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
+       ("7a3c984d4d7541419b59a8095675ac9f" , 'Phuoc' , 'Duong Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
+       ("0267aa4f76f34ec0bb1c1b62a30b7bab" , 'Vi', 'Ly Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
+       ("184a21a37f09483da325305e8681e7ad" , 'Hung' , 'Nguyen Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
+       ("9436348051594fea90befe90607ae62d" , 'Quang' , 'Ly Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
+       ("768ca567dede44b8996b44e7e65e4d61" , 'Son' , 'Phan Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
+       ("c087838e15464d27bcf9d67d8ba547f0" , 'Cong' , 'Bui Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
+       ("ad41136ad4ce4ddeb7fb4ac94942519b" , 'Dat' , 'Nguyen Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
+       ("8715b1bd1cc8487095d2899f3ccf6e98" , 'Tung' , 'Nguyen Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
+       ("f7c1f2c30f124f50936109f89e42996b" , 'Manh' , 'Nguyen Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
+       ("854b01b8cfa84402b7ed508b8faf60ad" , 'Khanh' , 'Ho Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
+       ("7e6b199ed77d4be5be8cac723945e79c" , 'Hung' , 'Nguyen Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
+       ("16b5f3ef46894d9397ac0f1ba582a66b" , 'Trung' , 'Ngo Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
+       ("6dc489e6b8bb4d3fbbb48c1af6d2c74f" , 'Khai' , 'Nguyen Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
+       ("c51a578107b5444d900171cdbec4b4e1" , 'Khoi' , 'Thai Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
+       ("27020af80d6346febf65a35d0fee0bd8" , 'Khanh' , 'Nguyen Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
+       ("7ba61f70e5b0488792e3cb9ced8f372a" , 'An' , 'To Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
+       ("b8cc772870bd4c8a942a73ada944b848" , 'Tuan' , 'Tu Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
+       ("1fe7bbb0465447ff8f0e05da2c4176b5" , 'Trung' , 'Nguyen Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
+       ("6500554c2a3b455d920268ebb56ee96a" , 'Nam' , 'Dang Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
+       ("d974626a93c64bb48e2e12c71ff0966d" , 'Bao' , 'Dao Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
+       ("51aff52a6a5145938cac440c28127544" , 'Giang' , 'Binh Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
 
 ```
 

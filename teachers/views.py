@@ -73,8 +73,9 @@ class TeachingInfoView(generics.ListAPIView):
         except Exception:
             raise serializers.ValidationError('Your account is don\'t have permissions to acess this information')
 
-
-        teching_info_list = Timetable.objects.filter(teacher=teacher)
+        this_school_year = Timetable.objects.order_by('-school_year').first().school_year
+        this_semester = Timetable.objects.order_by('-semester').first().semester
+        teching_info_list = Timetable.objects.filter(teacher=teacher, school_year=this_school_year, semester=this_semester)
         return teching_info_list
 
 
