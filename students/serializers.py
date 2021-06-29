@@ -15,13 +15,6 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-class ConductSerializer(serializers.ModelSerializer):
-    student_id = serializers.IntegerField()
-    class Meta:
-        model = Conduct
-        fields = ['id', 'score', 'semester', 'school_year', 'student_id']
-
-
 class StudentParentSerializer(serializers.ModelSerializer):
     person = PersonSerializer()
     classroom = ClassroomSerializer()
@@ -154,3 +147,11 @@ class GradeSerializer(serializers.ModelSerializer):
             if quiz3:
                 total += 1
             return round((quiz1 + quiz2 + quiz3 + test + mid_term_test * 2 + final_test * 2) / total, 2)
+
+
+class ConductSerializer(serializers.ModelSerializer):
+    student_id = serializers.IntegerField(write_only=True)
+    student = StudentSerializer(read_only=True)
+    class Meta:
+        model = Conduct
+        fields = ['id', 'score', 'semester', 'school_year', 'student_id', 'student']
