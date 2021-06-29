@@ -15,43 +15,6 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-class GradeSerializer(serializers.ModelSerializer):
-    course_id = serializers.IntegerField()
-    student_id = serializers.IntegerField()
-    final_score = serializers.SerializerMethodField(allow_null=True)
-    class Meta:
-        model = Grade
-        fields = ['id', 'course_id', 'school_year', 'semester', 'quiz1', 'quiz2', 'quiz3', 'test', 'mid_term_test', 'final_test', 'start_update', 'student_id', 'final_score']
-
-    def validate_course_id(self, value):
-        try:
-            Course.objects.get(pk=value)
-            return value
-        except Course.DoesNotExist:
-            raise serializers.ValidationError('Course does not exist')
-
-    def create(self, validated_data):
-        course = get_course(validated_data.pop('course_id'))
-        student = get_student(validated_data.pop('student_id'))
-        return Grade.objects.create(course=course, student=student, **validated_data)
-
-    def get_final_score(self, obj):
-        quiz1 = obj.quiz1
-        quiz2 = obj.quiz2
-        quiz3 = obj.quiz3
-        test = obj.test
-        mid_term_test = obj.mid_term_test
-        final_test = obj.final_test
-        total = 4
-        if quiz1 and test and mid_term_test and final_test:
-            if quiz2:
-                total += 1
-            if quiz3:
-                total += 1
-            return round((quiz1 + quiz2 + quiz3 + test + mid_term_test * 2 + final_test * 2) / total, 2)
-
-
-
 class ConductSerializer(serializers.ModelSerializer):
     student_id = serializers.IntegerField()
     class Meta:
@@ -155,3 +118,39 @@ class StudentSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
+class GradeSerializer(serializers.ModelSerializer):
+    course_id = serializers.IntegerField(write_only=True)
+    student_id = serializers.IntegerField(write_only=True)
+    student = StudentSerializer(read_only=True)
+    course = CourseSerializer(read_only=True)
+    final_score = serializers.SerializerMethodField(allow_null=True)
+    class Meta:
+        model = Grade
+        fields = ['id', 'course_id', 'school_year', 'semester', 'quiz1', 'quiz2', 'quiz3', 'test', 'mid_term_test', 'final_test', 'start_update', 'student_id', 'final_score', 'student', 'course']
+
+    def validate_course_id(self, value):
+        try:
+            Course.objects.get(pk=value)
+            return value
+        except Course.DoesNotExist:
+            raise serializers.ValidationError('Course does not exist')
+
+    def create(self, validated_data):
+        course = get_course(validated_data.pop('course_id'))
+        student = get_student(validated_data.pop('student_id'))
+        return Grade.objects.create(course=course, student=student, **validated_data)
+
+    def get_final_score(self, obj):
+        quiz1 = obj.quiz1
+        quiz2 = obj.quiz2
+        quiz3 = obj.quiz3
+        test = obj.test
+        mid_term_test = obj.mid_term_test
+        final_test = obj.final_test
+        total = 4
+        if quiz1 and test and mid_term_test and final_test:
+            if quiz2:
+                total += 1
+            if quiz3:
+                total += 1
+            return round((quiz1 + quiz2 + quiz3 + test + mid_term_test * 2 + final_test * 2) / total, 2)
