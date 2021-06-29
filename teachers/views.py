@@ -104,9 +104,9 @@ class ClassView(APIView):
 
 
 # # Show list of student's grade of a course in a class
-class StudentGradeView(APIView):
+class StudentGradeView(APIView, PaginationHandlerMixin):
     permission_classes = [IsAuthenticated]
-    queryset = Grade.objects.all()
+    pagination_class = Pagination
 
     @swagger_auto_schema(
         manual_parameters=[
@@ -140,6 +140,9 @@ class StudentGradeView(APIView):
             return Response('You don\'t teach this class this semester and school_year', status=status.HTTP_400_BAD_REQUEST)
 
         serializer = GradeSerializer(grades, many=True)
+        page = self.paginate_queryset(grades)
+        if page is not None:
+            serializer = self.get_paginated_response(GradeSerializer(page, many=True).data)
         return Response(serializer.data)
 
 

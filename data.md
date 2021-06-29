@@ -157,6 +157,43 @@ values ("b7010ba85f9741eea81acc9233f53658", "us1", "123456", "us1@gmail.com", fa
        ("db6088afe35341df81b8e523890c7322", "us31", "123456", "us31@gmail.com", false, true, "2021-01-01"),
        ("903272fb35b040caacc6e1a2421b0ddd", "us32", "123456", "us31@gmail.com", false, true, "2021-01-01");
 
+-- Student
+insert into account(id, username, password, email, is_admin, is_active, join_at)
+values  ("7896c3e7340340acbab24cc1341d6553", "stu1", "123456", "", false, true, "2021-01-01"),
+        ("98b25ac021e846b4b204eb5bddfaf194", "stu2", "123456", "", false, true, "2021-01-01"),
+        ("0a0027b170314bdb8a1ade50a6607edd", "stu3", "123456", "", false, true, "2021-01-01"),
+        ("63f0552284a2409aae7e8aa23c65d84b", "stu4", "123456", "", false, true, "2021-01-01"),
+        ("e44967d0f2d44cb4bc6bdcc002b40f89", "stu5", "123456", "", false, true, "2021-01-01"),
+        ("f1a4fec7b04b43be95adde11cebb8713", "stu6", "123456", "", false, true, "2021-01-01"),
+        ("d67a1d0f297d4826b186099893986097", "stu7", "123456", "", false, true, "2021-01-01"),
+        ("d451f2d31f334c479dc5e428f368c993", "stu8", "123456", "", false, true, "2021-01-01"),
+        ("867ef1f0739d440e9075adea981d91a7", "stu9", "123456", "", false, true, "2021-01-01"),
+        ("d608baa295044d958eca81f5cb586fc2", "stu10", "123456", "", false, true, "2021-01-01"),
+        ("259a4f1df158447d82ffbdc757ac1f6b", "stu11", "123456", "", false, true, "2021-01-01"),
+        ("b45db39fccec4a208a1a33cee7e66be5", "stu12", "123456", "", false, true, "2021-01-01"),
+        ("52df9cbc62054a2baeae996e2b221f74", "stu13", "123456", "", false, true, "2021-01-01"),
+        ("211cd8b3f44845f5b07f4d9b3454a3c9", "stu14", "123456", "", false, true, "2021-01-01"),
+        ("8060ebc1936d4972b7ac73fd56a687bd", "stu15", "123456", "", false, true, "2021-01-01"),
+        ("6c8522abff8348a1b810fb6a81c2c863", "stu16", "123456", "", false, true, "2021-01-01"),
+        ("2907b5d76cd446bfa2443db88615e5f3", "stu17", "123456", "", false, true, "2021-01-01"),
+        ("830d1e483f0c4fd2bc55db3f9f2c14d8", "stu18", "123456", "", false, true, "2021-01-01"),
+        ("2b7e53f3afbe4bbab63eb7dd328cbbb9", "stu19", "123456", "", false, true, "2021-01-01"),
+        ("b61b61d011064fcf97aaa5103c6413da", "stu20", "123456", "", false, true, "2021-01-01"),
+        ("e83c17da348b405ab4cd5c98caca8da5", "stu21", "123456", "", false, true, "2021-01-01"),
+        ("ce91c478baab48bfa879cbe01cc9c18e", "stu22", "123456", "", false, true, "2021-01-01"),
+        ("f117d0c79eb4448cb91ba55d3e573310", "stu23", "123456", "", false, true, "2021-01-01"),
+        ("3dd9f402fbac4608ab75341ef4d204d7", "stu24", "123456", "", false, true, "2021-01-01"),
+        ("68ecb4adb803494399cb9f4ee54c6f83", "stu25", "123456", "", false, true, "2021-01-01"),
+        ("be86b28859064048b573373c70afc4a4", "stu26", "123456", "", false, true, "2021-01-01"),
+        ("81e4d96af13c4fa3bacd53deb72c2390", "stu27", "123456", "", false, true, "2021-01-01"),
+        ("abd55093531744caa249affb945b62f6", "stu28", "123456", "", false, true, "2021-01-01"),
+        ("b34d983969fa4b3e9b56b4971b6ac872", "stu29", "123456", "", false, true, "2021-01-01"),
+        ("71f638e648fc46e384ec3ad5b4356c76", "stu30", "123456", "", false, true, "2021-01-01"),
+        ("582ba90b191f4035883fe1c87c89d8d0", "stu31", "123456", "", false, true, "2021-01-01"),
+        ("5c9a4516aeb34b4590f6e69726bb1276", "stu32", "123456", "", false, true, "2021-01-01"),
+        ("ef2b622de1134835bcd6c9c559ecd256", "stu33", "123456", "", false, true, "2021-01-01"),
+        ("4c6c614285874d3397ee89c8642c7bc3", "stu34", "123456", "", false, true, "2021-01-01"),
+
 ```
 
 
@@ -200,44 +237,44 @@ values ("53c64404fca44dd69d4ba7f4f543b108", 'Ngoc', 'Nguyen Thi', 'F', '1984-04-
 
 
 -- Student info
-insert into person_info(id, first_name, last_name, gender, date_of_birth, address)
-values ("d4fe771a3ecf4a88a4d2cb5b1d22836c" , 'Dung' , 'Nguyen Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
-       ("7693f451f70842babf0963c57eabf8d7" , 'Minh' , 'Tran Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
-       ("f754db6381c340fd89a42e9248c388e0" , 'Kien' , 'Pham Van', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
-       ("ce9832815a3a4795bfefacdc7009c3e8" , 'Thanh' , 'Phan Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
-       ("d23468e9c3994f4d8f6eb3eb7ec5812e" , 'Khoa' , 'Dinh Tien', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
-       ("7dc4d467601c445899ca722de29a5051" , 'Thang' , 'Ly Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
-       ("fc99cbd182224448a5cd854079f73c96" , 'Tai' , 'Le Hai', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
-       ("5d36088e065c4a16aacd0f1ea9825b43" , 'Trung' , 'Nguyen Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
-       ("7dee6815366d453f82df8f57f8f2dadf" , 'Huy' , 'Vu Van', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
-       ("98463210689c497ea8df685408c9ad0f" , 'Dang' , 'Nguyen Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
-       ("e5721d2ce6a14e3dbad80f1a031cb805" , 'Hoang' , 'Nguyen Huu', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
-       ("62e17fa9494c43898b334f494e8d58bf" , 'Dat' , 'Nguyen Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
-       ("4a24b40a498849508928b9fe1db9a546" , 'Cuong' , 'Vo Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
-       ("7cf09bfdd13a4fa6846ee95a6206a339" , 'Phi' , 'Dang Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
-       ("7bfb8323c15342fe9a017beb97440bbc" , 'Khoi' , 'Nguyen Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
-       ("a2fb578482564e9f9db3b3f5e649e53d" , 'Van' , 'Tran Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
-       ("7a3c984d4d7541419b59a8095675ac9f" , 'Phuoc' , 'Duong Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
-       ("0267aa4f76f34ec0bb1c1b62a30b7bab" , 'Vi', 'Ly Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
-       ("184a21a37f09483da325305e8681e7ad" , 'Hung' , 'Nguyen Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
-       ("9436348051594fea90befe90607ae62d" , 'Quang' , 'Ly Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
-       ("768ca567dede44b8996b44e7e65e4d61" , 'Son' , 'Phan Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
-       ("c087838e15464d27bcf9d67d8ba547f0" , 'Cong' , 'Bui Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
-       ("ad41136ad4ce4ddeb7fb4ac94942519b" , 'Dat' , 'Nguyen Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
-       ("8715b1bd1cc8487095d2899f3ccf6e98" , 'Tung' , 'Nguyen Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
-       ("f7c1f2c30f124f50936109f89e42996b" , 'Manh' , 'Nguyen Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
-       ("854b01b8cfa84402b7ed508b8faf60ad" , 'Khanh' , 'Ho Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
-       ("7e6b199ed77d4be5be8cac723945e79c" , 'Hung' , 'Nguyen Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
-       ("16b5f3ef46894d9397ac0f1ba582a66b" , 'Trung' , 'Ngo Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
-       ("6dc489e6b8bb4d3fbbb48c1af6d2c74f" , 'Khai' , 'Nguyen Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
-       ("c51a578107b5444d900171cdbec4b4e1" , 'Khoi' , 'Thai Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
-       ("27020af80d6346febf65a35d0fee0bd8" , 'Khanh' , 'Nguyen Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
-       ("7ba61f70e5b0488792e3cb9ced8f372a" , 'An' , 'To Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
-       ("b8cc772870bd4c8a942a73ada944b848" , 'Tuan' , 'Tu Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
-       ("1fe7bbb0465447ff8f0e05da2c4176b5" , 'Trung' , 'Nguyen Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
-       ("6500554c2a3b455d920268ebb56ee96a" , 'Nam' , 'Dang Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
-       ("d974626a93c64bb48e2e12c71ff0966d" , 'Bao' , 'Dao Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
-       ("51aff52a6a5145938cac440c28127544" , 'Giang' , 'Binh Anh', 'M', '2000-01-01', '123 Quang Trung, Ha Noi'),
+insert into person_info(id, first_name, last_name, gender, date_of_birth, address, ethnicity, religion)
+values ("d4fe771a3ecf4a88a4d2cb5b1d22836c" , 'Dung' , 'Nguyen Anh', 'M', '2000-01-01', '5 Quang Trung, Ha Noi', 'Kinh', 'None'),
+       ("7693f451f70842babf0963c57eabf8d7" , 'Minh' , 'Tran Anh', 'M', '2000-02-02', '253 Nguyen Du, Ha Noi', 'Kinh', 'None'),
+       ("f754db6381c340fd89a42e9248c388e0" , 'Kien' , 'Pham Van', 'M', '2000-03-03', '6 Van Chuong, Ha Noi', 'Kinh', 'None'),
+       ("ce9832815a3a4795bfefacdc7009c3e8" , 'Thanh' , 'Phan Anh', 'M', '2000-05-04', '26 Co Loa, Ha Noi', 'Kinh', 'None'),
+       ("d23468e9c3994f4d8f6eb3eb7ec5812e" , 'Khoa' , 'Dinh Tien', 'M', '2000-04-05', '37 Nam Dong, Ha Noi', 'Kinh', 'None'),
+       ("7dc4d467601c445899ca722de29a5051" , 'Thang' , 'Ly Anh', 'M', '2000-07-06', '73 Kim Lien, Ha Noi', 'Kinh', 'None'),
+       ("fc99cbd182224448a5cd854079f73c96" , 'Tai' , 'Le Hai', 'M', '2000-08-07', '38 Bui Thi Xuan, Ha Noi', 'Kinh', 'None'),
+       ("5d36088e065c4a16aacd0f1ea9825b43" , 'Trung' , 'Nguyen Anh', 'M', '2000-09-08', '649 Quang Trung, Ha Noi', 'Kinh', 'None'),
+       ("7dee6815366d453f82df8f57f8f2dadf" , 'Huy' , 'Vu Van', 'M', '2000-10-09', '269 Tran Hung Dao, Ha Noi', 'Kinh', 'None'),
+       ("98463210689c497ea8df685408c9ad0f" , 'Dang' , 'Nguyen Anh', 'M', '2000-12-10', '358 Hang Bo, Ha Noi', 'Kinh', 'None'),
+       ("e5721d2ce6a14e3dbad80f1a031cb805" , 'Hoang' , 'Nguyen Huu', 'M', '2000-11-11', '124 Hang Giai, Ha Noi', 'Kinh', 'None'),
+       ("62e17fa9494c43898b334f494e8d58bf" , 'Dat' , 'Nguyen Anh', 'M', '2000-04-12', '149 Nguyen Du, Ha Noi', 'Kinh', 'None'),
+       ("4a24b40a498849508928b9fe1db9a546" , 'Cuong' , 'Vo Minh', 'M', '2000-05-13', '19 Le Dai Thanh, Ha Noi', 'Kinh', 'None'),
+       ("7cf09bfdd13a4fa6846ee95a6206a339" , 'Phi' , 'Dang Van', 'M', '2000-06-14', '395 Phuong Liet, Ha Noi', 'Kinh', 'None'),
+       ("7bfb8323c15342fe9a017beb97440bbc" , 'Khoi' , 'Nguyen Thu', 'M', '2000-07-15', '38 Dong Tam Ha Noi', 'Kinh', 'None'),
+       ("a2fb578482564e9f9db3b3f5e649e53d" , 'Van' , 'Tran Anh', 'M', '2000-08-16', '148 Phuong Lien, Ha Noi', 'Kinh', 'None'),
+       ("7a3c984d4d7541419b59a8095675ac9f" , 'Phuoc' , 'Duong Dai', 'M', '2000-11-17', '53 Tuong Khai, Ha Noi', 'Kinh', 'None'),
+       ("0267aa4f76f34ec0bb1c1b62a30b7bab" , 'Vi', 'Ly Anh', 'M', '2000-03-18', '93 Mai Dong, Ha Noi', 'Kinh', 'None'),
+       ("184a21a37f09483da325305e8681e7ad" , 'Hung' , 'Nguyen Anh', 'M', '2000-04-19', '127 Minh Khai, Ha Noi', 'Kinh', 'None'),
+       ("9436348051594fea90befe90607ae62d" , 'Quang' , 'Ly Anh', 'M', '2000-01-20', '98 Vinh Hung, Ha Noi', 'Kinh', 'None'),
+       ("768ca567dede44b8996b44e7e65e4d61" , 'Son' , 'Phan Anh', 'M', '2000-02-21', '18 Thanh Tri, Ha Noi', 'Kinh', 'None'),
+       ("c087838e15464d27bcf9d67d8ba547f0" , 'Cong' , 'Bui Van', 'M', '2000-12-22', '129 Mai Dong, Ha Noi', 'Kinh', 'None'),
+       ("ad41136ad4ce4ddeb7fb4ac94942519b" , 'Dat' , 'Nguyen Hoang', 'M', '2000-03-23', '89 Ngoc Ha, Ha Noi', 'Kinh', 'None'),
+       ("8715b1bd1cc8487095d2899f3ccf6e98" , 'Tung' , 'Nguyen Van', 'M', '2000-01-24', '713 Doi Can, Ha Noi', 'Kinh', 'None'),
+       ("f7c1f2c30f124f50936109f89e42996b" , 'Manh' , 'Nguyen Van', 'M', '2000-01-25', '192 Kim Ma, Ha Noi', 'Kinh', 'None'),
+       ("854b01b8cfa84402b7ed508b8faf60ad" , 'Khanh' , 'Ho Anh', 'M', '2000-04-27', '89 Thanh Cong, Ha Noi', 'Kinh', 'None'),
+       ("7e6b199ed77d4be5be8cac723945e79c" , 'Hung' , 'Nguyen Anh', 'M', '2000-03-28', '128 Ngoc Khanh, Ha Noi', 'Kinh', 'None'),
+       ("16b5f3ef46894d9397ac0f1ba582a66b" , 'Trung' , 'Ngo Vu', 'M', '2000-07-29', '128 Quan Hoa, Ha Noi', 'Kinh', 'None'),
+       ("6dc489e6b8bb4d3fbbb48c1af6d2c74f" , 'Khai' , 'Nguyen Anh', 'M', '2000-06-30', '128 Lieu Gai, Ha Noi', 'Kinh', 'None'),
+       ("c51a578107b5444d900171cdbec4b4e1" , 'Khoi' , 'Thai Ngoc', 'M', '2000-07-31', '91 Vinh Phuc, Ha Noi', 'Kinh', 'None'),
+       ("27020af80d6346febf65a35d0fee0bd8" , 'Khanh' , 'Nguyen Anh', 'M', '2000-08-01', '129 Le Van Luong, Ha Noi', 'Kinh', 'None'),
+       ("7ba61f70e5b0488792e3cb9ced8f372a" , 'An' , 'To Minh', 'M', '2000-10-02', '189 Quang Trung, Ha Noi', 'Kinh', 'None'),
+       ("b8cc772870bd4c8a942a73ada944b848" , 'Tuan' , 'Tu Anh', 'M', '2000-05-03', '129 Tay Son, Ha Noi', 'Kinh', 'None'),
+       ("1fe7bbb0465447ff8f0e05da2c4176b5" , 'Trung' , 'Nguyen Anh', 'M', '2000-02-04', '19 Duong Lang, Ha Noi', 'Kinh', 'None'),
+       ("6500554c2a3b455d920268ebb56ee96a" , 'Nam' , 'Dang Anh', 'M', '2000-08-05', '14 Quang Trung, Ha Noi', 'Kinh', 'None'),
+       ("d974626a93c64bb48e2e12c71ff0966d" , 'Bao' , 'Dao Manh', 'M', '2000-09-06', '218 Dinh Cong, Ha Noi', 'Kinh', 'None'),
+       ("51aff52a6a5145938cac440c28127544" , 'Giang' , 'Binh Dinh', 'M', '2000-01-07', '12 Truong Chinh, Ha Noi', 'Kinh', 'None');
 
 ```
 
@@ -276,7 +313,48 @@ values ("d4fe771a3ecf4a88a4d2cb5b1d22836c" , 'Dung' , 'Nguyen Anh', 'M', '2000-0
          ("374f6987de8349b3afbaeca2749e9ede", "770842e4387343c3b6a4da5707313571"),
          ("db6088afe35341df81b8e523890c7322", "661c31500e8241feaf1baf0e45ce1326"),
          ("903272fb35b040caacc6e1a2421b0ddd", "c00c35ad3b8743b886174e46887e1aac");
-(
+```
+
+# Student
+```sql
+    insert into student(person_id, status, addmission_year, classroom_id)
+    values ("d4fe771a3ecf4a88a4d2cb5b1d22836c", "DH", 2018, 17)
+           ("7693f451f70842babf0963c57eabf8d7", "DH", 2018, 17)
+           ("f754db6381c340fd89a42e9248c388e0", "DH", 2018, 17)
+           ("ce9832815a3a4795bfefacdc7009c3e8", "DH", 2018, 17)
+           ("d23468e9c3994f4d8f6eb3eb7ec5812e", "DH", 2018, 17)
+           ("7dc4d467601c445899ca722de29a5051", "DH", 2018, 17)
+           ("fc99cbd182224448a5cd854079f73c96", "DH", 2018, 17)
+           ("5d36088e065c4a16aacd0f1ea9825b43", "DH", 2018, 17)
+           ("7dee6815366d453f82df8f57f8f2dadf", "DH", 2018, 17)
+           ("98463210689c497ea8df685408c9ad0f", "DH", 2018, 17)
+           ("e5721d2ce6a14e3dbad80f1a031cb805", "DH", 2018, 17)
+           ("62e17fa9494c43898b334f494e8d58bf", "DH", 2018, 17)
+           ("4a24b40a498849508928b9fe1db9a546", "DH", 2018, 17)
+           ("7cf09bfdd13a4fa6846ee95a6206a339", "DH", 2018, 17)
+           ("7bfb8323c15342fe9a017beb97440bbc", "DH", 2018, 17)
+           ("a2fb578482564e9f9db3b3f5e649e53d", "DH", 2018, 17)
+           ("7a3c984d4d7541419b59a8095675ac9f", "DH", 2018, 17)
+           ("0267aa4f76f34ec0bb1c1b62a30b7bab", "DH", 2018, 17)
+           ("184a21a37f09483da325305e8681e7ad", "DH", 2018, 17)
+           ("9436348051594fea90befe90607ae62d", "DH", 2018, 17)
+           ("768ca567dede44b8996b44e7e65e4d61", "DH", 2018, 17)
+           ("c087838e15464d27bcf9d67d8ba547f0", "DH", 2018, 17)
+           ("ad41136ad4ce4ddeb7fb4ac94942519b", "DH", 2018, 17)
+           ("8715b1bd1cc8487095d2899f3ccf6e98", "DH", 2018, 17)
+           ("f7c1f2c30f124f50936109f89e42996b", "DH", 2018, 17)
+           ("854b01b8cfa84402b7ed508b8faf60ad", "DH", 2018, 17)
+           ("7e6b199ed77d4be5be8cac723945e79c", "DH", 2018, 17)
+           ("16b5f3ef46894d9397ac0f1ba582a66b", "DH", 2018, 17)
+           ("6dc489e6b8bb4d3fbbb48c1af6d2c74f", "DH", 2018, 17)
+           ("c51a578107b5444d900171cdbec4b4e1", "DH", 2018, 17)
+           ("27020af80d6346febf65a35d0fee0bd8", "DH", 2018, 17)
+           ("7ba61f70e5b0488792e3cb9ced8f372a", "DH", 2018, 17)
+           ("b8cc772870bd4c8a942a73ada944b848", "DH", 2018, 17)
+           ("1fe7bbb0465447ff8f0e05da2c4176b5", "DH", 2018, 17)
+           ("6500554c2a3b455d920268ebb56ee96a", "DH", 2018, 17)
+           ("d974626a93c64bb48e2e12c71ff0966d", "DH", 2018, 17)
+           ("51aff52a6a5145938cac440c28127544", "DH", 2018, 17)
 
 ```
 
