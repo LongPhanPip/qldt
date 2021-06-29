@@ -4,7 +4,7 @@ from .models import Classroom, Course, Timetable, ClassRecord, Device, DeviceMan
 from teachers.models import Teacher
 from students.models import Student
 
-from teachers.serializers import TeacherSerializer
+from teachers.serializers import TeacherSerializer, TeacherNameSerializer
 from persons.serializers import PersonSerializer, PersonNameSerializer
 
 from .validations import validate_classroom_timetable, validate_teacher_timetable, validate_classroom_record, validate_classroom_attendant, validate_device_manage
@@ -22,7 +22,7 @@ class StudentClassSerializer(serializers.ModelSerializer):
 class ClassroomSerializer(serializers.ModelSerializer):
     homeroom_teacher_id = serializers.IntegerField(write_only=True)
     students = serializers.SerializerMethodField(read_only=True)
-    homeroom_teacher = TeacherSerializer(read_only=True)
+    homeroom_teacher = TeacherNameSerializer(read_only=True)
 
     class Meta:
         model = Classroom
