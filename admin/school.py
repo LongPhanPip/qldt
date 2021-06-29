@@ -189,6 +189,7 @@ class DeviceManageView(APIView, PaginationHandlerMixin):
 
     )
     def get(self, request):
+        id = request.query_params.get('id')
         device_id = request.query_params.get('device_id')
         teacher_id = request.query_params.get('teacher_id')
         week = request.query_params.get('week')
