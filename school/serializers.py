@@ -5,7 +5,7 @@ from teachers.models import Teacher
 from students.models import Student
 
 from teachers.serializers import TeacherSerializer
-from persons.serializers import PersonSerializer
+from persons.serializers import PersonSerializer, PersonNameSerializer
 
 from .validations import validate_classroom_timetable, validate_teacher_timetable, validate_classroom_record, validate_classroom_attendant, validate_device_manage
 import logging
@@ -14,10 +14,10 @@ logger = logging.getLogger(__name__)
 
 
 class StudentClassSerializer(serializers.ModelSerializer):
-    person = PersonSerializer()
+    person = PersonNameSerializer()
     class Meta:
         model = Student
-        fields = '__all__'
+        fields = ['id', 'person']
 
 class ClassroomSerializer(serializers.ModelSerializer):
     homeroom_teacher_id = serializers.IntegerField(write_only=True)

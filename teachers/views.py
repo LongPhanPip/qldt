@@ -147,7 +147,7 @@ class StudentGradeView(APIView, PaginationHandlerMixin):
 
 
     @swagger_auto_schema(
-        manual_parameters=[openapi.Parameter('id', openapi.IN_QUERY, type=openapi.TYPE_INTEGER, description='Grade id')],
+        manual_parameters=[openapi.Parameter('grade_id', openapi.IN_QUERY, type=openapi.TYPE_INTEGER, description='Grade id')],
         request_body=openapi.Schema(
             type=openapi.TYPE_OBJECT,
             properties=GRADE_CHANGE_PROP
@@ -168,7 +168,7 @@ class StudentGradeView(APIView, PaginationHandlerMixin):
         if not teacher.timetables.filter(classroom_id=pk, school_year=this_school_year, semester=this_semester).exists():
             return Response('You don\'t teach this class this semester and school_year', status=status.HTTP_400_BAD_REQUEST)
 
-        grade_id = request.query_params.get('id')
+        grade_id = request.query_params.get('grade_id')
         if grade_id:
             grade = get_grade(grade_id)
             start_update = grade.start_update

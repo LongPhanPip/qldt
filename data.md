@@ -317,7 +317,7 @@ values ("d4fe771a3ecf4a88a4d2cb5b1d22836c" , 'Dung' , 'Nguyen Anh', 'M', '2000-0
 
 # Student
 ```sql
-    insert into student(person_id, status, addmission_year, classroom_id)
+    insert into student(person_id, status, admission_year, classroom_id)
     values ("d4fe771a3ecf4a88a4d2cb5b1d22836c", "DH", 2018, 17),
            ("7693f451f70842babf0963c57eabf8d7", "DH", 2018, 17),
            ("f754db6381c340fd89a42e9248c388e0", "DH", 2018, 17),

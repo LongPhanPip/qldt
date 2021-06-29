@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from accounts.serializers import AccountSerializer
-from persons.serializers import PersonSerializer, AchievementSerializer, HealthSerializer
+from persons.serializers import PersonSerializer, AchievementSerializer, HealthSerializer, PersonNameSerializer
 from school.serializers import ClassroomSerializer, CourseSerializer
 
 from .models import Student, Grade, Parent, Conduct
@@ -21,6 +21,12 @@ class StudentParentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
         fields = '__all__'
+
+class StudentNameSerializer(serializers.ModelSerializer):
+    person = PersonNameSerializer()
+    class Meta:
+        model = Student
+        fields = ['id', 'person']
 
 class ParentSerializer(serializers.ModelSerializer):
     person = PersonSerializer()
@@ -114,7 +120,7 @@ class StudentSerializer(serializers.ModelSerializer):
 class GradeSerializer(serializers.ModelSerializer):
     course_id = serializers.IntegerField(write_only=True)
     student_id = serializers.IntegerField(write_only=True)
-    student = StudentSerializer(read_only=True)
+    student = StudentNameSerializer(read_only=True)
     course = CourseSerializer(read_only=True)
     final_score = serializers.SerializerMethodField(allow_null=True)
     class Meta:
@@ -151,7 +157,7 @@ class GradeSerializer(serializers.ModelSerializer):
 
 class ConductSerializer(serializers.ModelSerializer):
     student_id = serializers.IntegerField(write_only=True)
-    student = StudentSerializer(read_only=True)
+    student = StudentNameSerializer(read_only=True)
     class Meta:
         model = Conduct
         fields = ['id', 'score', 'semester', 'school_year', 'student_id', 'student']
